@@ -37,11 +37,11 @@ public class UserController {
      */
     @RequestMapping(value = "/empl", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     private ResponseEntity testEmployer() {
-        return ResponseEntity.ok("SVE JE OK, EMPLOYER PRIJAVLJEN");
+        return ResponseEntity.ok().body("sve je ok, prijavljen employer");
     }
 
     @RequestMapping(value = "/work", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     private ResponseEntity testWorker() {
-        return ResponseEntity.ok("SVE JE OK, WORKER PRIJAVLJEN");
+        return ResponseEntity.ok().body("sve je ok prijavlje worker");
     }
 }
