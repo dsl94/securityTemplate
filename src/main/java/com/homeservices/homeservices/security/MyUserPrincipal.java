@@ -4,41 +4,37 @@ import com.homeservices.homeservices.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.Collections;
+import java.util.*;
 
 /**
  * Created by nemanja on 9/30/2017.
  */
 public class MyUserPrincipal implements UserDetails {
 
-    private User user;
+    private String username;
+    private String password;
+    private List<? extends GrantedAuthority> authorities;
 
-    public MyUserPrincipal(User user) {
-        this.user = user;
+    public MyUserPrincipal(String username, String password, List<? extends GrantedAuthority> authorities) {
+        this.username = username;
+        this.password = password;
+        this.authorities = authorities;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList();
+        return authorities;
     }
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return user.getUsername();
+        return username;
     }
 
     @Override

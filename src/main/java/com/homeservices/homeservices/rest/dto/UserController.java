@@ -7,10 +7,7 @@ import com.homeservices.homeservices.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.awt.*;
@@ -33,5 +30,18 @@ public class UserController {
         } catch (UserException e) {
             return ResponseEntity.badRequest().body(new ErrorMessage(e.getErrorCode(), e.getErrorMessage()));
         }
+    }
+
+    /**
+     * THESE NEXT REST CALLS ARE USED TO TES ROLE, DELETE THEM AFTER TESTING IS DONE
+     */
+    @RequestMapping(value = "/empl", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    private ResponseEntity testEmployer() {
+        return ResponseEntity.ok("SVE JE OK, EMPLOYER PRIJAVLJEN");
+    }
+
+    @RequestMapping(value = "/work", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    private ResponseEntity testWorker() {
+        return ResponseEntity.ok("SVE JE OK, WORKER PRIJAVLJEN");
     }
 }

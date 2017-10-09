@@ -1,7 +1,15 @@
 package com.homeservices.homeservices.model;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.Cache;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Created by nemanja on 9/30/2017.
@@ -19,8 +27,16 @@ public class User {
     private String email;
     private String password;
     private String city;
-    private UserType userType;
     private BigDecimal pricePerHour;
+
+    @JsonIgnore
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "user_authority",
+        joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+        inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "name")})
+    @BatchSize(size = 20)
+    private Set<Authority> authorities = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -78,19 +94,21 @@ public class User {
         this.city = city;
     }
 
-    public UserType getUserType() {
-        return userType;
-    }
-
-    public void setUserType(UserType userType) {
-        this.userType = userType;
-    }
-
     public BigDecimal getPricePerHour() {
         return pricePerHour;
     }
 
     public void setPricePerHour(BigDecimal pricePerHour) {
         this.pricePerHour = pricePerHour;
+    }
+
+    public Set<Authority> getAuthorities()
+    {
+        return authorities;
+    }
+
+    public void setAuthorities(Set<Authority> authorities)
+    {
+        this.authorities = authorities;
     }
 }

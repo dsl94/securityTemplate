@@ -1,8 +1,12 @@
 package com.homeservices.homeservices.security;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import com.homeservices.homeservices.model.User;
 import com.homeservices.homeservices.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -24,6 +28,9 @@ public class MyUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException(s);
         }
 
-        return new MyUserPrincipal(user);
+        List<GrantedAuthority> grantedAuthorities = user.getAuthorities().stream()
+            .map(authority -> new SimpleGrantedAuthority(authority.getName())).collect(Collectors.toList());
+
+        return new MyUserPrincipal(user.getUsername(), user.getPassword(), grantedAuthorities );
     }
 }

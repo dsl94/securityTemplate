@@ -1,15 +1,15 @@
 package com.homeservices.homeservices.security;
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-
+import java.util.*;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import io.jsonwebtoken.*;
 
-import static java.util.Collections.emptyList;
 
 /**
  * Created by nemanja on 9/30/2017.
@@ -20,29 +20,45 @@ public class TokenAuthenticationService {
     static final String SECRET = "ThisIsSecret";
     static final String TOKEN_PREFIX = "Bearer";
     static final String HEADER_STRING = "Authorization";
+    static final String AUTHORITIES_KEY = "auth";
 
-    public static void addAuthentication(HttpServletResponse res, String username) {
+    public static void addAuthentication(HttpServletResponse res, Authentication authentication) {
+        String authorities = authentication.getAuthorities().stream()
+            .map(GrantedAuthority::getAuthority)
+            .collect(Collectors.joining(","));
+
+        long now = (new Date()).getTime();
+        Date validity;
+        validity = new Date(now + EXPIRATIONTIME);
+
+
         String JWT = Jwts.builder()
-                .setSubject(username)
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATIONTIME))
-                .signWith(SignatureAlgorithm.HS512, SECRET)
-                .compact();
+            .setSubject(authentication.getName())
+            .claim(AUTHORITIES_KEY, authorities)
+            .signWith(SignatureAlgorithm.HS512, SECRET)
+            .setExpiration(validity)
+            .compact();
 
         res.addHeader(HEADER_STRING, TOKEN_PREFIX + " " + JWT);
     }
 
     public static Authentication getAuthentication(HttpServletRequest request) {
         String token = request.getHeader(HEADER_STRING);
-        if (token != null) {
-            String user = Jwts.parser()
-                    .setSigningKey(SECRET)
-                    .parseClaimsJws(token.replace(TOKEN_PREFIX,""))
-                    .getBody()
-                    .getSubject();
-
-            return user != null ? new UsernamePasswordAuthenticationToken(user, null, emptyList()) : null;
+        if (token == null) {
+            return null;
         }
+        Claims claims = Jwts.parser()
+            .setSigningKey(SECRET)
+            .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
+            .getBody();
 
-        return null;
+        List<? extends GrantedAuthority> authorities =
+            Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
+
+        MyUserPrincipal principal = new MyUserPrincipal(claims.getSubject(), "", authorities);
+
+        return new UsernamePasswordAuthenticationToken(principal, token, authorities);
     }
 }

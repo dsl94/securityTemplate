@@ -1,6 +1,5 @@
 package com.homeservices.homeservices.rest.dto.user;
 
-import com.homeservices.homeservices.model.UserType;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
@@ -27,21 +26,18 @@ public class UserRequestDTO {
     @NotNull
     private String city;
 
-    @NotNull
-    private UserType userType;
-
     private BigDecimal pricePerHour;
 
     public UserRequestDTO(){}
 
-    public UserRequestDTO(String username, String firstName, String lastName, String email, String password, String city, UserType userType, BigDecimal pricePerHour) {
+    public UserRequestDTO(String username, String firstName, String lastName, String email, String password, String city,  BigDecimal pricePerHour) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.city = city;
-        this.userType = userType;
+        this.pricePerHour = pricePerHour;
     }
 
     public BigDecimal getPricePerHour() {
@@ -98,13 +94,5 @@ public class UserRequestDTO {
 
     public void setCity(String city) {
         this.city = city;
-    }
-
-    public UserType getUserType() {
-        return userType;
-    }
-
-    public void setUserType(UserType userType) {
-        this.userType = userType;
     }
 }
