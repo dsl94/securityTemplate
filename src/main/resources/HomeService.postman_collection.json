@@ -1,0 +1,140 @@
+{
+	"id": "f567bc21-659e-d04d-af31-88bbe3c7a24a",
+	"name": "HomeService",
+	"description": "",
+	"order": [
+		"6dd8b9ec-6743-fcb1-02b3-cee4444c4626",
+		"c370c9d6-f1f5-8a07-2908-93da3a54183f",
+		"00a30717-b924-88e5-2df2-cb5006806e96",
+		"f70434ff-cf22-f4ff-f81a-5725c480de67"
+	],
+	"folders": [],
+	"timestamp": 1507546321009,
+	"owner": "",
+	"public": false,
+	"requests": [
+		{
+			"id": "00a30717-b924-88e5-2df2-cb5006806e96",
+			"headers": "//Authorization: \n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "",
+					"description": "",
+					"enabled": false
+				}
+			],
+			"url": "http://localhost:8091/api/work",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "f567bc21-659e-d04d-af31-88bbe3c7a24a",
+			"data": null,
+			"dataMode": "params",
+			"name": "TestWorker",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1507546362962,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "6dd8b9ec-6743-fcb1-02b3-cee4444c4626",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:8091/api/register",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "POST",
+			"collectionId": "f567bc21-659e-d04d-af31-88bbe3c7a24a",
+			"data": [],
+			"dataMode": "raw",
+			"name": "Register",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1507546321008,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"rawModeData": "{\n\t\"username\": \"radnik3\",\n\t\"firstName\": \"radnik3\",\n\t\"lastName\": \"Radni3\",\n\t\"email\": \"radnik3@gmail.com\",\n\t\"password\": \"test\",\n\t\"city\": \"Novi Sad\",\n\t\"pricePerHour\": 500.0\n}"
+		},
+		{
+			"id": "c370c9d6-f1f5-8a07-2908-93da3a54183f",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:8091/api/login",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "POST",
+			"collectionId": "f567bc21-659e-d04d-af31-88bbe3c7a24a",
+			"data": [],
+			"dataMode": "raw",
+			"name": "Login",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1507546352201,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"rawModeData": "{\n\t\"username\": \"radnik\",\n\t\"password\": \"test\"\n}"
+		},
+		{
+			"id": "f70434ff-cf22-f4ff-f81a-5725c480de67",
+			"headers": "",
+			"headerData": [],
+			"url": "http://localhost:8091/api/search?query=n",
+			"queryParams": [
+				{
+					"key": "query",
+					"value": "n",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "f567bc21-659e-d04d-af31-88bbe3c7a24a",
+			"data": null,
+			"dataMode": "params",
+			"name": "Search",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1507546371257,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		}
+	]
+}

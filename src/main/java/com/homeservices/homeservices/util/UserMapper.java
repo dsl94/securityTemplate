@@ -1,11 +1,10 @@
 package com.homeservices.homeservices.util;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 import com.homeservices.homeservices.model.Authority;
 import com.homeservices.homeservices.model.User;
-import com.homeservices.homeservices.rest.dto.user.UserRequestDTO;
-import com.homeservices.homeservices.rest.dto.user.UserResponseDTO;
+import com.homeservices.homeservices.rest.dto.user.*;
 import com.homeservices.homeservices.security.AuthoritiesConstants;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -49,5 +48,15 @@ public class UserMapper {
         userResponseDTO.setUsername(user.getUsername());
 
         return userResponseDTO;
+    }
+
+    public List<UserSearchResponseDTO> mapSearchResponses(List<User> users) {
+
+        return users.stream().map(user -> new UserSearchResponseDTO(
+            user.getUsername(),
+            user.getFirstName(),
+            user.getLastName(),
+            user.getCity(),
+            user.getPricePerHour())).collect(Collectors.toList());
     }
 }

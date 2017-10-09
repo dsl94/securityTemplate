@@ -5,6 +5,7 @@ import com.homeservices.homeservices.error.UserException;
 import com.homeservices.homeservices.rest.dto.user.UserRequestDTO;
 import com.homeservices.homeservices.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +31,11 @@ public class UserController {
         } catch (UserException e) {
             return ResponseEntity.badRequest().body(new ErrorMessage(e.getErrorCode(), e.getErrorMessage()));
         }
+    }
+
+    @RequestMapping(value = "/search", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    private ResponseEntity search(@RequestParam String query) {
+        return ResponseEntity.ok().body(userService.search(query));
     }
 
     /**

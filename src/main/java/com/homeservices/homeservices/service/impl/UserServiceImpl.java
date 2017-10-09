@@ -1,11 +1,15 @@
 package com.homeservices.homeservices.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 import com.homeservices.homeservices.error.ErrorCode;
 import com.homeservices.homeservices.error.UserException;
+import com.homeservices.homeservices.model.Authority;
 import com.homeservices.homeservices.model.User;
 import com.homeservices.homeservices.repository.UserRepository;
-import com.homeservices.homeservices.rest.dto.user.UserRequestDTO;
-import com.homeservices.homeservices.rest.dto.user.UserResponseDTO;
+import com.homeservices.homeservices.rest.dto.user.*;
+import com.homeservices.homeservices.security.AuthoritiesConstants;
 import com.homeservices.homeservices.service.UserService;
 import com.homeservices.homeservices.util.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,4 +43,15 @@ public class UserServiceImpl implements UserService {
 
         return userMapper.mapResponseFromEntity(result);
     }
+
+	@Override
+	public List<UserSearchResponseDTO> search(String city)
+	{
+		List<User> allUserFromThatCity = userRepository.findByCityIgnoreCase(city.toUpperCase());
+		Authority authority = new Authority();
+		authority.setName(AuthoritiesConstants.WORKER);
+		List<User> workers = allUserFromThatCity.stream().filter(user -> user.getAuthorities().contains(authority)).collect(Collectors.toList());
+
+		return userMapper.mapSearchResponses(workers);
+	}
 }
